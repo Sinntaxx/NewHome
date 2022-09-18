@@ -11,7 +11,7 @@ pet.post('/savePet', (req, res) => {
   // log body provided by client
   const { pet } = req.body;
   const { userId } = pet;
-  delete pet.userId;
+  pet.userId = 'none';
 
   // check if pet is in database
   Pet.find({ petId: pet.petId })
@@ -100,14 +100,78 @@ pet.get('/savePet/:userId', (req, res) => {
   // return array of animal objects back
 });
 
-// query the database to delete the pet from the favorites array
-pet.delete('/savePet', (req, res) => SavedPet.findOneAndDelete(req.body)
-  .then((data) => {
-    res.status(200).send(data);
+// update pet status to adopted
+pet.put('/:petId', (req, res) => {
+  // take in userId and petId
+  const { pet } = req.body;
+  let { petId } = req.params;
+  petId = Number(petId);
+
+  // Pet model method to findOneandUpdate
+  return Pet.findOneAndUpdate({ petId }, pet, {
+    returnDocument: 'after',
   })
-  .catch((err) => {
-    console.error(err);
-    res.sendStatus(500);
-  }));
+    .then((data) => {
+      // if not found, send 404
+      // send data back to page
+      res.status(201).send(data);
+    })
+    .catch((err) => {
+      console.error('error updating pet\n\n', err);
+      res.sendStatus(500);
+    });
+});
+
+pet.get('/:petId', (req, res) => {
+  // find One pet
+  // return it's information
+  const { petId } = req.params;
+  Pet.findOne(petId)
+    .then((data) => {
+      if (data) {
+        res.status(201).send(data);
+      }
+      res.sendStatus(401);
+    })
+    .catch((err) => {
+      console.error('error finding pet in get/pet\n\n'.err);
+      res.sendStatus(500);
+    });
+});
+
+pet.get('/api/:petId', (req, res) => {
+  let { petId } = req.params;
+  petId = Number(petId);
+
+  return axios
+    .get(`https://api.petfinder.com/v2/animals/${petId}`)
+    .then((data) => {
+      console.log('pet from api\n', data);
+      if (data) {
+        res.status(200).send(data);
+      }
+      res.sendStatus(401);
+    })
+    .catch((err) => {
+      console.error('error getting pet from api... ofCourse\n', err);
+      res.sendStatus(500);
+    });
+});
+
+pet.delete('/savePet', (req, res) => {
+  console.log('request.body ◙', req.body);
+  return SavedPet.findOneAndDelete(req.body)
+    .then((data) => {
+      if (!data) {
+        res.sendStatus(401);
+      }
+      console.log('liked status deleted', data);
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = pet;
