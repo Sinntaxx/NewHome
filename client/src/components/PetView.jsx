@@ -46,7 +46,6 @@ function PetView() {
       window.alert('Please sign up/login');
     } else if (e.target.id === 'save') {
       // axios request for favoriting a pet
-      console.log('the animal object to save', animal);
       const photo = animal.primary_photo_cropped
         ? animal.primary_photo_cropped.small
         : null;
@@ -70,15 +69,12 @@ function PetView() {
             userId: user.id,
           },
         })
-        .then((data) => {
-          console.log('data from pet/savePet', data);
-        })
+        .then((data) => {})
         .catch((err) => {
           console.error('error on /pet/savePet req', err);
         });
     } else {
       // axios request for following a pet story
-      console.log('testing follow request');
     }
   };
 

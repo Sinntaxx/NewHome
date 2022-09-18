@@ -11,7 +11,6 @@ function PostFeed() {
     axios
       .get('/feed/posts')
       .then(({ data: posts }) => {
-        console.log(posts);
         setPosts(posts);
       })
       .then(() => {

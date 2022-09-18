@@ -27,15 +27,9 @@ function Adoption({ animalsData }) {
   const navigate = useNavigate();
 
   // on click render individual petview
-  const handleEntryClick = () => {
-    console.log('clicked on', animalsData.name);
-    // navigate tag to render petview
-    return navigate('/petview', { state: { animalsData } });
-  };
+  const handleEntryClick = () => navigate('/petview', { state: { animalsData } });
 
   const handleUnsave = (e) => {
-    console.log('inside handleUnsave', e);
-
     // setClick(() => {
     //   const afterClicked = isClicked;
     //   afterClicked.unshift(animalsData.id);
@@ -50,16 +44,13 @@ function Adoption({ animalsData }) {
           petId: animalsData.id,
         },
       })
-      .then((data) => {
-        console.log('inside unsave lol', data);
-      })
+      .then((data) => {})
       .catch((err) => {
         console.error(err);
       });
   };
 
   const handleSavePet = (e) => {
-    console.log('inside handleSavePet', animalsData.id);
     setClick(() => {
       const afterClicked = isClicked;
       afterClicked.push(animalsData.id);
@@ -72,7 +63,6 @@ function Adoption({ animalsData }) {
       // direct a user to log in to save/follow pets
       window.alert('Please sign up/login');
     } else {
-      console.log(user);
       // axios request for favoriting a pet
 
       const photo = animalsData.primary_photo_cropped
@@ -98,9 +88,7 @@ function Adoption({ animalsData }) {
             userId: user.id,
           },
         })
-        .then((data) => {
-          console.log('data from pet/savePet', data);
-        })
+        .then((data) => {})
         .catch((err) => {
           console.error('error on /pet/savePet req', err);
         });

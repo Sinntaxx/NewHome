@@ -16,7 +16,6 @@ pet.post('/savePet', (req, res) => {
   // check if pet is in database
   Pet.find({ petId: pet.petId })
     .then((data) => {
-      console.log('length of data', data.length);
       // save pet to db Pet collection
       if (!data.length) {
         return Pet.create(pet);
@@ -37,7 +36,6 @@ pet.post('/savePet', (req, res) => {
     })
     .then((data) => {
       // then check saved pet documents for previous save
-      console.log('data length from SavedPet.find\n', data.length);
       if (!data.length) {
         // create user/pet SavedPet
         return SavedPet.create({
@@ -103,17 +101,13 @@ pet.get('/savePet/:userId', (req, res) => {
 });
 
 // query the database to delete the pet from the favorites array
-pet.delete('/savePet', (req, res) => {
-  console.log('request.body ◙', req.body);
-  return SavedPet.findOneAndDelete(req.body)
-    .then((data) => {
-      console.log('liked status deleted', data);
-      res.status(200).send(data);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-});
+pet.delete('/savePet', (req, res) => SavedPet.findOneAndDelete(req.body)
+  .then((data) => {
+    res.status(200).send(data);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500);
+  }));
 
 module.exports = pet;

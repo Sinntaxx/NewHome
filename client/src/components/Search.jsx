@@ -7,29 +7,12 @@ import {
   InputLabel,
   Box,
   TextField,
-  ThemeProvider,
-  createTheme,
   Grid,
   Autocomplete,
 } from '@mui/material';
 import Adoption from './Adoption.jsx';
-import styles from '../styles.jsx';
 import { UserContext } from '../UserContext.jsx';
 import { breeds } from '../breeds.js';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#B7D5E6',
-      light: '#B7C4CF',
-      contrastText: '#375E3D',
-    },
-    secondary: {
-      main: '#EEE3CB',
-      dark: '#967E76',
-    },
-  },
-});
 
 function Search() {
   const { search, setSearch } = useContext(UserContext);
@@ -53,7 +36,6 @@ function Search() {
       size,
     };
     setSearch(searchBy);
-    console.log(search);
     const config = {
       method: 'post',
       url: 'http://localhost:8080/feed/api/search',
@@ -64,12 +46,11 @@ function Search() {
     };
     axios(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
         submitUpdate();
         setPets(response.data.animals);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         alert(`${error.response.data} / Invalid Breed`);
       });
   };
