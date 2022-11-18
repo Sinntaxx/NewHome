@@ -1,5 +1,9 @@
 {
-  "extends": ["eslint:recommended", "airbnb", "airbnb/hooks"],
+  "extends": [
+    "eslint:recommended",
+    "airbnb",
+    "airbnb/hooks"
+  ],
   "env": {
     "es6": true,
     "browser": true
@@ -27,6 +31,7 @@
     "react/prop-types": ["off"],
     "no-empty": ["off"],
     "no-nested-ternary": ["off"],
-    "no-param-reassign": ["off"]
+    "no-param-reassign": ["off"],
+    "linebreak-style": 0
   }
 }

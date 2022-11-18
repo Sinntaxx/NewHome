@@ -60,8 +60,32 @@ function App() {
             id="/home"
           />
           <Tab
+            value="/breedInfo"
+            label="Dog Breed Info"
+            onClick={handleClick}
+            id="/breedInfo"
+          />
+          <Tab
+            value="/petMap"
+            label="Pet Map"
+            onClick={handleClick}
+            id="/petMap"
+          />
+          <Tab
+            value="/roulette"
+            label="Pet Roulette"
+            onClick={handleClick}
+            id="/roulette"
+          />
+          <Tab
             value="/login"
-            label="Login/Sign-Up"
+            label="Pet Quiz"
+            onClick={handleClick}
+            id="/login"
+          />
+          <Tab
+            value="/login"
+            label="ChatRoom"
             onClick={handleClick}
             id="/login"
           />
